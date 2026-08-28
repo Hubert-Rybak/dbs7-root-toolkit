@@ -116,6 +116,7 @@ public class MainActivity extends Activity {
         findViewById(R.id.btn_reboot).setOnClickListener(v -> bg(this::doReboot));
         findViewById(R.id.btn_adb).setOnClickListener(v -> bg(this::doEnableAdb));
         findViewById(R.id.btn_gms).setOnClickListener(v -> bg(this::doInstallGms));
+        findViewById(R.id.btn_gapps_usb).setOnClickListener(v -> bg(this::doStageFromUsb));
         findViewById(R.id.btn_remove).setOnClickListener(v -> bg(this::doRemove));
     }
 
@@ -209,6 +210,38 @@ public class MainActivity extends Activity {
     }
 
     /* ---------------- GMS installer ---------------- */
+
+    /**
+     * Stages the Google apps files from a USB stick into /data/local/tmp/gapps
+     * (the dir button 5 reads from). The app itself cannot read /storage (scoped
+     * storage), so the copy runs as root through the daemon queue — requires
+     * button 2 (plant) + restart done first. USB layout:
+     *   /<usb-root>/gapps/GmsCore.apk … PlayStoreTV.apk privapp-permissions-*.xml
+     */
+    private void doStageFromUsb() {
+        line("== STAGE GOOGLE APPS FROM USB ==");
+        if (!halPing()) { line("FATAL: factory HAL not reachable."); return; }
+        if (!halCheckFile(SVC_PATH)) {
+            line("Root service not planted — press 2. Plant root service and restart first.");
+            return;
+        }
+        // copy from every mounted removable volume's gapps/ dir into GMS_DIR,
+        // then chmod so the app/HAL can verify, and list what landed
+        String copy =
+                "mkdir -p " + GMS_DIR + "; " +
+                "for vol in /storage/*; do " +
+                "  [ -d \"$vol/gapps\" ] && cp -f \"$vol\"/gapps/*.apk \"$vol\"/gapps/*.xml " + GMS_DIR + "/ 2>/dev/null; " +
+                "done; " +
+                "chmod 666 " + GMS_DIR + "/*.apk " + GMS_DIR + "/*.xml 2>/dev/null; " +
+                "echo USBSTAGE_DONE; ls -l " + GMS_DIR + "/*.apk " + GMS_DIR + "/*.xml 2>/dev/null";
+        enqueue(copy);
+        line("Copy queued to root daemon. Wait ~5 s, then re-check with:");
+        line("  5. Install Google apps (it verifies all 8 files)");
+        line("USB stick layout: <stick-root>/gapps/{GmsCore.apk, GoogleServicesFramework.apk,");
+        line("  GoogleFeedback.apk, GooglePartnerSetup.apk, PlayStoreTV.apk,");
+        line("  privapp-permissions-google-product.xml, privapp-permissions-google-system-ext.xml,");
+        line("  privapp-permissions-mtg.xml}  (zip in the release / tools/download_gapps.sh)");
+    }
 
     /**
      * One-tap GMS install. Requires the APKs to be pre-staged in /data/local/tmp/gapps:

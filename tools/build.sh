@@ -32,7 +32,12 @@ echo "[3/5] d8"
   --output "$OUT/dex" $(find "$OUT/classes" -name '*.class')
 
 echo "[4/5] package"
-cd "$OUT/dex" && zip -qj "$OUT/base.apk" classes.dex
+cd "$OUT/dex" && python3 - "$OUT/base.apk" <<'PYEOF'
+import sys, zipfile
+zo = zipfile.ZipFile(sys.argv[1], 'a')
+zo.write('classes.dex', 'classes.dex')
+zo.close()
+PYEOF
 cd "$OUT"
 
 echo "[5/5] sign"

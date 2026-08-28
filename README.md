@@ -28,6 +28,7 @@ stick (no PC needed) and follow three buttons. The whole UI is English.
 | 3. Restart projector | Reboots via the root daemon queue (or directly when allowed) |
 | 4. Enable remote ADB | Forces `persist.adb.tcp.port=5555` + restarts adbd (re-asserted at every boot by the daemon) |
 | 5. Install Google apps | Stages GmsCore / GSF / Play Store into a **priv-app shadow** + permission allowlists, upgrades the daemon, queues the bind-mounts |
+| 5b. Stage Google apps from USB | Copies `gapps/` from a USB stick into `/data/local/tmp/gapps` as root (no adb needed) |
 | Remove root service | Full rollback: removes the daemon and queue files |
 
 Typical flow: **1 → 2 → 3** (status, plant, restart). After the reboot the
@@ -75,7 +76,21 @@ installed as privileged system apps the normal way — and as ordinary
 
 1. Stage 8 files in `/data/local/tmp/gapps/` (MindTheGapps 14 arm64 provides
    GmsCore / GSF / Feedback / PartnerSetup; **Play Store must be the Android TV
-   build** — the phone build ANR-loops on `leanback_only` devices):
+   build** — the phone build ANR-loops on `leanback_only` devices).
+
+   **Where to get the files** — they are not distributed here (Google
+   copyright; download from the official sources):
+
+   - **`tools/download_gapps.sh`** (Linux/macOS):
+     downloads MindTheGapps 14.0.0 arm64 from the official
+     [MindTheGapps releases](https://github.com/MindTheGapps/14.0.0-arm64/releases)
+     (sha256-verified), extracts the 5 APKs + 3 permission XMLs into `gapps/`,
+     and tells you where to fetch the TV Play Store (APKMirror, needs a
+     browser). Run: `tools/download_gapps.sh .`
+   - Then either **adb** (below) or the **USB route**: put the `gapps/` folder
+     on a FAT32 stick, plug it in, press **5b. Stage Google apps from USB**
+     (after root is planted) — the daemon copies the files as root, no PC
+     needed.
 
    ```bash
    adb push GmsCore.apk GoogleServicesFramework.apk GoogleFeedback.apk \
@@ -171,6 +186,7 @@ app/src/main/java/com/dbs7/rootkit/MainActivity.java all logic: HAL calls + daem
 app/src/main/res/layout/activity_main.xml            dark TV-friendly single-scroll layout
 app/src/main/res/values/strings.xml                  EN strings (whole UI is English)
 tools/build.sh                                       aapt2 → javac → d8 → zip → apksigner (no gradle)
+tools/download_gapps.sh                              fetch MindTheGapps (official, sha256) + Play Store TV → gapps/
 screenshots/                                         app UI on the device
 DBS7RootToolkit-v1.0.apk                             signed, ready to install
 ```

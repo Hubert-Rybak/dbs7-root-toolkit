@@ -8,6 +8,7 @@
     <string name="btn_reboot">3. Restart projector</string>
     <string name="btn_adb">4. Enable remote ADB (TCP 5555)</string>
     <string name="btn_gms">5. Install Google apps (GMS + Play Store)</string>
+    <string name="btn_gapps_usb">5b. Stage Google apps from USB stick</string>
     <string name="btn_remove">Remove root service (rollback)</string>
     <string name="log_hint">Log output…</string>
     <string name="warn">⚠ Device-specific tool. Targets Dangbei DBOS projectors with the

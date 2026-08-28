@@ -74,6 +74,13 @@
             android:text="@string/btn_gms" />
 
         <Button
+            android:id="@+id/btn_gapps_usb"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:text="@string/btn_gapps_usb" />
+
+        <Button
             android:id="@+id/btn_remove"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
