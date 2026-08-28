@@ -3,8 +3,8 @@
 One-tap **root + remote ADB + Google apps (GMS / Play Store)** installer for
 Dangbei DBOS 14 projectors (tested on **DBS7 Ultra Max**, MediaTek MT5877).
 
-A single ~21 KB Android app, no dependencies, no PC scripting after install.
-The whole UI is English.
+A single ~21 KB Android app, no dependencies. Install it straight from a USB
+stick (no PC needed) and follow three buttons. The whole UI is English.
 
 <p align="center">
   <img src="screenshots/toolkit_home.png" width="420" alt="DBS7 Root Toolkit home">
@@ -107,10 +107,27 @@ dirs, restart. Or press **Remove root service** for the full rollback.
 
 ## Install & build
 
+### Option A — USB stick (no PC needed)
+
+1. Download `DBS7RootToolkit-v1.0.apk` (from the
+   [releases page](https://github.com/Hubert-Rybak/dbs7-root-toolkit/releases))
+   and copy it to the **root of a FAT32 USB stick**.
+2. On the projector open the built-in **File Manager** (Media Center), select
+   the USB drive and click the APK. If install from unknown sources is
+   blocked, allow it when prompted (Settings → Security → Unknown sources).
+3. Open **DBS7 Root Toolkit** from the launcher and continue with
+   **1 → 2 → 3** (see *What it does* above).
+
+> [!TIP]
+> Dangbei DBOS also ships a factory USB auto-installer: an APK placed on the
+> stick can be picked up and installed silently at boot on some firmware
+> versions. The File Manager route above always works and needs no reboot —
+> try it first.
+
+### Option B — ADB (USB debugging already enabled)
+
 ```bash
-# install (USB debugging must be enabled first)
 adb install DBS7RootToolkit-v1.0.apk
-# launch
 adb shell am start -n com.dbs7.rootkit/.MainActivity
 ```
 
