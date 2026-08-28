@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#101418"
+    android:fillViewport="true">
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="24dp">
+
+        <TextView
+            android:id="@+id/title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/title"
+            android:textColor="#E8F0FF"
+            android:textSize="26sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/subtitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/subtitle"
+            android:textColor="#9AB0C8"
+            android:textSize="14sp"
+            android:paddingBottom="12dp" />
+
+        <TextView
+            android:id="@+id/warn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/warn"
+            android:textColor="#FFD27A"
+            android:textSize="13sp"
+            android:paddingBottom="16dp" />
+
+        <Button
+            android:id="@+id/btn_status"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:text="@string/btn_status" />
+
+        <Button
+            android:id="@+id/btn_plant"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:text="@string/btn_plant" />
+
+        <Button
+            android:id="@+id/btn_reboot"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:text="@string/btn_reboot" />
+
+        <Button
+            android:id="@+id/btn_adb"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:text="@string/btn_adb" />
+
+        <Button
+            android:id="@+id/btn_gms"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:text="@string/btn_gms" />
+
+        <Button
+            android:id="@+id/btn_remove"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            android:text="@string/btn_remove" />
+
+        <TextView
+            android:id="@+id/log"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#0A0D10"
+            android:fontFamily="monospace"
+            android:padding="12dp"
+            android:text="@string/log_hint"
+            android:textColor="#7BE07B"
+            android:textSize="12sp" />
+    </LinearLayout>
+</ScrollView>
